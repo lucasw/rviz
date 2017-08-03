@@ -46,10 +46,10 @@
 #include "rviz/ogre_helpers/shape.h"
 #include "rviz/properties/int_property.h"
 #include "rviz/properties/property.h"
+#include "rviz/properties/ros_service_property.h"
 #include "rviz/properties/ros_topic_property.h"
 #include "rviz/selection/selection_manager.h"
 #include "rviz/validate_floats.h"
-
 #include "rviz/default_plugin/marker_display.h"
 
 namespace rviz
@@ -65,6 +65,11 @@ MarkerDisplay::MarkerDisplay()
                                                  "visualization_msgs::Marker topic to subscribe to.  <topic>_array will also"
                                                  " automatically be subscribed with type visualization_msgs::MarkerArray.",
                                                  this, SLOT( updateTopic() ));
+
+  add_marker_service_property_ = new RosServiceProperty( "Marker Service Topic", "add_visualization_marker",
+                                                         QString::fromStdString( ros::message_traits::datatype<visualization_msgs::Marker>() ),
+                                                         "AddMarker service to provide.",
+                                                         this, SLOT( updateService() ));
 
   queue_size_property_ = new IntProperty( "Queue Size", 100,
                                           "Advanced: set the size of the incoming Marker message queue.  Increasing this is"
@@ -95,6 +100,7 @@ MarkerDisplay::~MarkerDisplay()
   if ( initialized() )
   {
     unsubscribe();
+    unserve();
 
     clearMarkers();
 
@@ -128,11 +134,13 @@ void MarkerDisplay::clearMarkers()
 void MarkerDisplay::onEnable()
 {
   subscribe();
+  serve();
 }
 
 void MarkerDisplay::onDisable()
 {
   unsubscribe();
+  unserve();
   tf_filter_->clear();
 
   clearMarkers();
@@ -147,6 +155,36 @@ void MarkerDisplay::updateTopic()
 {
   unsubscribe();
   subscribe();
+}
+
+bool MarkerDisplay::addMarker(rviz::AddMarker::Request& req,
+                              rviz::AddMarker::Response& res)
+{
+  boost::mutex::scoped_lock lock(queue_mutex_);
+  // TODO(lwalter) just putting the message into the queue doesn't seem
+  // good enough to return true- ought to wait until it has been actually
+  // added or not and return that status.
+  message_queue_.push_back(
+      visualization_msgs::Marker::Ptr(new visualization_msgs::Marker(req.marker)));
+  res.success = true;
+  return true;
+}
+
+void MarkerDisplay::updateService()
+{
+  unserve();
+  serve();
+}
+
+void MarkerDisplay::serve()
+{
+  service_ = update_nh_.advertiseService(add_marker_service_property_->getServiceStd(),
+      &MarkerDisplay::addMarker, this);
+}
+
+void MarkerDisplay::unserve()
+{
+  service_.shutdown();
 }
 
 void MarkerDisplay::subscribe()

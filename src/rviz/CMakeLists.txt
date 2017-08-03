@@ -91,6 +91,7 @@ add_library(${PROJECT_NAME}
   properties/property_tree_widget.cpp
   properties/property_tree_with_help.cpp
   properties/quaternion_property.cpp
+  properties/ros_service_property.cpp
   properties/ros_topic_property.cpp
   properties/splitter_handle.cpp
   properties/status_list.cpp

@@ -44,6 +44,7 @@
 #include <visualization_msgs/Marker.h>
 #include <visualization_msgs/MarkerArray.h>
 
+#include "rviz/AddMarker.h"
 #include "rviz/display.h"
 #include "rviz/properties/bool_property.h"
 #include "rviz/selection/forwards.h"
@@ -55,6 +56,7 @@ class MarkerBase;
 class MarkerNamespace;
 class MarkerSelectionHandler;
 class Object;
+class RosServiceProperty;
 class RosTopicProperty;
 
 typedef boost::shared_ptr<MarkerSelectionHandler> MarkerSelectionHandlerPtr;
@@ -105,17 +107,27 @@ protected:
    * "visualization_marker_array" topics. */
   virtual void unsubscribe();
 
+  /** @brief Provide "add_visualization_marker" and
+   * "service */
+  virtual void serve();
+
+  /** @brief Provide "add_visualization_marker" and
+   * "service */
+  virtual void unserve();
+
   /** @brief Process a MarkerArray message. */
   void incomingMarkerArray( const visualization_msgs::MarkerArray::ConstPtr& array );
 
   ros::Subscriber array_sub_;
 
   RosTopicProperty* marker_topic_property_;
+  RosServiceProperty* add_marker_service_property_;
   IntProperty* queue_size_property_;
 
 private Q_SLOTS:
   void updateQueueSize();
   void updateTopic();
+  void updateService();
 
 private:
   /** @brief Delete all the markers within the given namespace. */
@@ -159,8 +171,12 @@ private:
                                                         ///< in our update() function
   boost::mutex queue_mutex_;
 
+  bool addMarker(rviz::AddMarker::Request& req,
+                 rviz::AddMarker::Response& res);
   message_filters::Subscriber<visualization_msgs::Marker> sub_;
   tf::MessageFilter<visualization_msgs::Marker>* tf_filter_;
+
+  ros::ServiceServer service_;
 
   typedef QHash<QString, MarkerNamespace*> M_Namespace;
   M_Namespace namespaces_;

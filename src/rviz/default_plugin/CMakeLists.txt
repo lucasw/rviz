@@ -73,6 +73,7 @@ if(NOT WIN32)
   set_target_properties(${rviz_DEFAULT_PLUGIN_LIBRARY_TARGET_NAME}
     PROPERTIES COMPILE_FLAGS "-std=c++11")
 endif()
+add_dependencies(${rviz_DEFAULT_PLUGIN_LIBRARY_TARGET_NAME} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(${rviz_DEFAULT_PLUGIN_LIBRARY_TARGET_NAME}
   ${PROJECT_NAME}
   ${Boost_LIBRARIES}
