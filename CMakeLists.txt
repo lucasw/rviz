@@ -172,7 +172,7 @@ set(rviz_DEFAULT_PLUGIN_LIBRARY_TARGET_NAME rviz_default_plugin)
 
 # add_service_files(AddMarker.srv)
 add_service_files(
-  DIRECTORY srv
+  # DIRECTORY srv
   FILES AddMarker.srv
 )
 
@@ -201,6 +201,7 @@ catkin_package(
     laser_geometry
     map_msgs
     message_filters
+    message_runtime
     nav_msgs
     pluginlib
     resource_retriever
