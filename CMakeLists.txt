@@ -128,6 +128,7 @@ find_package(catkin REQUIRED
   roscpp
   roslib
   rospy
+  rviz_srv
   sensor_msgs
   std_msgs
   std_srvs
@@ -170,16 +171,14 @@ set(rviz_QT_VERSION ${QTVERSION})
 # There is a matching instance of this in the plugin_description.xml.
 set(rviz_DEFAULT_PLUGIN_LIBRARY_TARGET_NAME rviz_default_plugin)
 
-# add_service_files(AddMarker.srv)
-add_service_files(
-  # DIRECTORY srv
-  FILES AddMarker.srv
-)
+# add_service_files(
+#   FILES AddMarker.srv
+# )
 
-generate_messages(
-  DEPENDENCIES
-  visualization_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   visualization_msgs
+# )
 
 catkin_package(
   CFG_EXTRAS
