@@ -118,7 +118,6 @@ find_package(catkin REQUIRED
   laser_geometry
   map_msgs
   message_filters
-  message_generation
   nav_msgs
   pluginlib
   python_qt_binding
@@ -171,15 +170,6 @@ set(rviz_QT_VERSION ${QTVERSION})
 # There is a matching instance of this in the plugin_description.xml.
 set(rviz_DEFAULT_PLUGIN_LIBRARY_TARGET_NAME rviz_default_plugin)
 
-# add_service_files(
-#   FILES AddMarker.srv
-# )
-
-# generate_messages(
-#   DEPENDENCIES
-#   visualization_msgs
-# )
-
 catkin_package(
   CFG_EXTRAS
     rviz-extras.cmake
@@ -200,7 +190,6 @@ catkin_package(
     laser_geometry
     map_msgs
     message_filters
-    message_runtime
     nav_msgs
     pluginlib
     resource_retriever
