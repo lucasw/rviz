@@ -157,8 +157,8 @@ void MarkerDisplay::updateTopic()
   subscribe();
 }
 
-bool MarkerDisplay::addMarker(rviz::AddMarker::Request& req,
-                              rviz::AddMarker::Response& res)
+bool MarkerDisplay::addMarker(rviz_srv::AddMarker::Request& req,
+                              rviz_srv::AddMarker::Response& res)
 {
   boost::mutex::scoped_lock lock(queue_mutex_);
   // TODO(lwalter) just putting the message into the queue doesn't seem

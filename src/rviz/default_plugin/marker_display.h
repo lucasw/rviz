@@ -44,7 +44,7 @@
 #include <visualization_msgs/Marker.h>
 #include <visualization_msgs/MarkerArray.h>
 
-#include "rviz/AddMarker.h"
+#include "rviz_srv/AddMarker.h"
 #include "rviz/display.h"
 #include "rviz/properties/bool_property.h"
 #include "rviz/selection/forwards.h"
@@ -171,8 +171,8 @@ private:
                                                         ///< in our update() function
   boost::mutex queue_mutex_;
 
-  bool addMarker(rviz::AddMarker::Request& req,
-                 rviz::AddMarker::Response& res);
+  bool addMarker(rviz_srv::AddMarker::Request& req,
+                 rviz_srv::AddMarker::Response& res);
   message_filters::Subscriber<visualization_msgs::Marker> sub_;
   tf::MessageFilter<visualization_msgs::Marker>* tf_filter_;
 
