@@ -193,7 +193,7 @@ void MyFrame::mousePressEvent(QMouseEvent* event)
   case Qt::LeftButton:
     left_mouse_down_ = true;
     break;
-  case Qt::MidButton:
+  case Qt::MiddleButton:
     middle_mouse_down_ = true;
     break;
   case Qt::RightButton:
@@ -211,7 +211,7 @@ void MyFrame::mouseReleaseEvent(QMouseEvent* event)
   case Qt::LeftButton:
     left_mouse_down_ = false;
     break;
-  case Qt::MidButton:
+  case Qt::MiddleButton:
     middle_mouse_down_ = false;
     break;
   case Qt::RightButton:
