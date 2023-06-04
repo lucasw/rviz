@@ -166,7 +166,7 @@ void BillboardLine::setupChains()
   }
 }
 
-void BillboardLine::setMaxPointsPerLine(uint32_t max)
+bool BillboardLine::setMaxPointsPerLine(uint32_t max)
 {
   if (max <= MAX_ELEMENTS)
   {
@@ -175,13 +175,17 @@ void BillboardLine::setMaxPointsPerLine(uint32_t max)
   }
   else // need to split points across several lines
   {
-    ROS_ASSERT(num_lines_ == 1);
+    if (num_lines_ != 1) {
+      // TODO(lucasw) ROS_WARN
+      return false;
+    }
     max_points_per_line_ = MAX_ELEMENTS;
     num_lines_ = max / MAX_ELEMENTS;
     if (max % MAX_ELEMENTS != 0)
       ++num_lines_;
     setNumLines(num_lines_);
   }
+  return true;
 }
 
 void BillboardLine::setNumLines(uint32_t num)
@@ -202,6 +206,7 @@ void BillboardLine::newLine()
 {
   ++current_line_;
 
+  // TODO(lucasw) instead of asserting, print a warning and not draw this
   ROS_ASSERT(current_line_ < num_lines_);
 }
 
