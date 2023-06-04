@@ -74,7 +74,7 @@ public:
 
   void setLineWidth(float width);
 
-  void setMaxPointsPerLine(uint32_t max);
+  bool setMaxPointsPerLine(uint32_t max);
   void setNumLines(uint32_t num);
 
   // overrides from Object
