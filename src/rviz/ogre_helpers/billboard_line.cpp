@@ -175,7 +175,8 @@ bool BillboardLine::setMaxPointsPerLine(uint32_t max)
   }
   else // need to split points across several lines
   {
-    if (num_lines_ != 1) {
+    if (num_lines_ != 1)
+    {
       // TODO(lucasw) ROS_WARN
       return false;
     }

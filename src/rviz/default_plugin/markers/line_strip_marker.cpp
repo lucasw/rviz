@@ -86,7 +86,8 @@ void LineStripMarker::onNewMessage(const MarkerConstPtr& /*old_message*/,
   }
 
   lines_->setLineWidth(new_message->scale.x);
-  if (!lines_->setMaxPointsPerLine(new_message->points.size())) {
+  if (!lines_->setMaxPointsPerLine(new_message->points.size()))
+  {
     ROS_WARN("something wrong with line strip points %ld", new_message->points.size());
     return;
   }
